@@ -1,0 +1,11 @@
+/* ./src/assets/index.css */
+
+/* 引入 Tailwind 的默认样式 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定义全局样式 */
+/* body {
+  font-family: 'Arial', sans-serif;
+} */
