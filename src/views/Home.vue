@@ -14,14 +14,14 @@
         <a @click="newText" class="text-2xl absolute cursor-pointer right-5 hover:bg-gray-300 ">📝</a>
       </header>
       <hr class="mx-5 border-gray-300">
-
+      
 
 
       <div v-if="selectedItem" class="p-5" :style="`height: ${innerHeight - 100}px;`">
         <!-- 可编辑标题 -->
         <h2 class="text-2xl font-bold">
           <input v-model="selectedItem.title" type="text"
-            class="w-full bg-transparent border-b-2 border-gray-300 p-1 text-2xl font-bold outline-none" />
+            class="w-full bg-transparent border-b-2 border-gray-300 p-1 text-2xl font-bold outline-none" ref="TitleGetFocus"/>
         </h2>
 
         <!-- 可编辑文本内容 -->
@@ -33,10 +33,8 @@
         <!-- <div :style="`min-height: ${innerHeight - 40}px;`"> -->
        
         <textarea v-model="selectedItem.text" class="text-lg bg-transparent border-b-2 border-gray-300 p-1 text-lg outline-none w-full h-full"  
-      @blur="changeText"></textarea>
+      @blur="changeText" ref="TextGetFocus"></textarea>
   
-        
-         
       </div>
 
     </main>
@@ -44,7 +42,7 @@
 </template>
 
 <script setup>
-  import { ref, onUnmounted } from 'vue'
+  import { ref, onUnmounted, watch } from 'vue'
   import { useMemoStore } from '../store/index'
   import Aside from "../components/Aside.vue"
   import Setting from "../components/Setting.vue"
@@ -63,7 +61,8 @@
   const isSidebarOpen = ref(false)
 
   // Aside 子组件通信
-  const selectedItem = ref(null)
+  // const selectedItem = ref(null)
+  const selectedItem = ref(memoStore.memos[0])
 
   // 切换侧边栏的状态
   const toggleSidebar = () => {
@@ -73,6 +72,7 @@
   // 处理从 Aside 传递过来的选中项
   const handleItemSelected = (item) => {
     selectedItem.value = item
+    // console.log(selectedItem.value.text)
   }
 
   const width = ref(200)
@@ -85,18 +85,35 @@
     if (selectedItem.value) {
       // 使用 Pinia 的 updateMemo 方法更新备忘录
       memoStore.updateMemo(selectedItem.value.id, selectedItem.value.title, selectedItem.value.text)
-      console.log(selectedItem.value.id)
+      // console.log(selectedItem.value.id)
     }
   }
 
+
+  const TitleGetFocus = ref(null);
+  const TextGetFocus = ref(null);
+
   const newText = () => {
     memoStore.addMemo('未命名标题', '')
+    selectedItem.value = memoStore.memos[0]
+    console.log(memoStore.memos[0])
+    console.log(selectedItem.value)
+    TitleGetFocus.value.focus()
   }
 
   onUnmounted(() => {
     console.log('hhh')
     changeText()
   })
+  watch(selectedItem, (newValue, oldValue) => {
+    console.log(111)
+    console.log(newValue.text)
+    if(newValue.text) {
+      TextGetFocus.value.focus()
+    } else {
+      TitleGetFocus.value.focus()
+    }
+  }, {deep:true})
 
 </script>
 

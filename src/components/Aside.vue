@@ -3,19 +3,20 @@
     class="resize-container bg-gray-800 text-white p-4 py-10 h-screen overflow-y-auto" 
     :style="{ width: sidebarWidth + 'px' }" 
     style="user-select: none;">
-    <h1 class="text-2xl font-bold mb-4">随心记</h1>
+    <div class="bg-gray-800 fixed left-0 top-0 h-12" :style="{ width: sidebarWidth + 'px'}"></div>
+    <h1 class="text-2xl font-bold mb-4 mt-4">随心记</h1>
     <ul class="space-y-2">
       <!-- 循环显示备忘录 -->
       <li v-for="memo in memoStore.memos" :key="memo.id"
           class="block hover:bg-gray-700 p-2 rounded cursor-pointer" 
-          @click="handleClick(memo)" @contextmenu="showContextMenu">
+          @click="handleClick(memo)" @contextmenu="showContextMenu($event, memo)">
         
-          <context-menu
+          <!-- <context-menu
             v-model:show="show"
             :options="menuOptions"
           >
             <context-menu-item label="删除" @click="onDelete" />
-          </context-menu>
+          </context-menu> -->
 
         <h1>{{ memo.title }}</h1>
         <a>{{ memo.text }}</a>
@@ -28,9 +29,9 @@
 </template>
 
 <script setup lang="js">
-  import { ref, defineEmits } from 'vue'
+  import { ref, defineEmits, h } from 'vue'
   import { useMemoStore } from '../store/index'
-  import { ContextMenu, ContextMenuItem} from '@imengyu/vue3-context-menu'
+  import ContextMenu from '@imengyu/vue3-context-menu'
   import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 
   
@@ -39,6 +40,7 @@
   const sidebarWidth = ref(200)  // 默认宽度
   let startX = 0
   let startWidth = 0
+  const selectedMemo = ref(null)  // 用于存储被右键点击的备忘录
 
 
 
@@ -47,27 +49,49 @@
 
   // 菜单的位置和配置
   const menuOptions = ref({
+    items: [
+      {
+        label: h('div', {
+          style: {
+            width: '5px',
+            fontSize: '12px',
+            // color: '#f98',
+            'text-align': 'center'
+          }
+        }, "删除"),
+        onClick: () => {
+          onDelete(selectedMemo.value)
+        }
+      }
+    ],
     zIndex: 1000,
-    minWidth: 150,
+    theme: 'mac',
+    minWidth: 40,
     x: 0,
     y: 0
   })
 
   // 右键点击时显示菜单
-  const showContextMenu = (e) => {
+  const showContextMenu = (e, memo) => {
+    selectedMemo.value = memo  // 设置当前选中的备忘录
     e.preventDefault() // 阻止默认的右键菜单
     show.value = true
     menuOptions.value.x = e.clientX
     menuOptions.value.y = e.clientY
-    console.log(menuOptions.value.x)
-    console.log(menuOptions.value.y)
-    console.log(show.value)
-    console.log(menuOptions.value)
+    ContextMenu.showContextMenu(menuOptions);
+    // console.log(menuOptions.value.x)
+    // console.log(menuOptions.value.y)
+    // console.log(show.value)
+    // console.log(menuOptions.value)
   }
 
   // 删除操作
-  const onDelete = () => {
-    alert('删除操作')
+  const onDelete = (memo) => {
+    // alert(memo.id, memo.index)
+    const index = memoStore.memos.findIndex(item => item.id === memo.id)
+    if (index !== -1) {
+      memoStore.memos.splice(index, 1)
+    }
     show.value = false // 关闭菜单
   }
 
@@ -107,11 +131,11 @@
   // 点击某个备忘录项时，传递给父组件
   const handleClick = (memo) => {
     emit('itemSelected', memo)  // 触发事件并传递选中的备忘录
-    console.log(memo.id)
+    // console.log(memo.id)
   }
 </script>
 
-<style scoped>
+<style lang="scss">
   .resize-container {
     position: relative;
   }
@@ -137,5 +161,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.75rem;
+  }
+  .mx-menu-bar.mac, .mx-context-menu.mac {
+    padding: 4px 0;
+    & {
+      --mx-menu-hover-backgroud: rgb(129, 143, 182);
+      --mx-menu-active-backgroud: rgb(76, 104, 183);
+    }
+  }
+  .mx-context-menu-item .mx-item-row {
+    display: block;
   }
 </style>

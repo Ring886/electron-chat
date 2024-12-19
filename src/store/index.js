@@ -4,8 +4,7 @@ import { defineStore } from 'pinia'
 export const useMemoStore = defineStore('memo', {
   state: () => ({
     memos: [
-      { id: 1, title: '瞬', text: '我的无力成为了我的败笔' },
-      { id: 2, title: 'Why?', text: '只是门被回忆堵住,谁能帮我铲除' }
+      
     ]
   }),
   actions: {

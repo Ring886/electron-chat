@@ -44,3 +44,23 @@ window.addEventListener('resize', () => {
   innerHeight.value = window.innerHeight
 })
 ```
+
+
+# 修改菜单原生样式(文档中原生)
+1. `<style lang="scss">`
+2. 在 `devtool` 中找到类名
+  ``` scss
+  .mx-menu-bar.mac, .mx-context-menu.mac {
+    padding: 4px 0;
+    & {
+      --mx-menu-hover-backgroud: rgb(129, 143, 182);
+      --mx-menu-active-backgroud: rgb(76, 104, 183);
+    }
+  }
+  .mx-context-menu-item .mx-item-row {
+    display: block;
+  }
+  ```
+
+# 要将 selectedItem 设置成 ref(memoStore.memos[0]), 否则会出现刷新页面时 main 区域为空
+
