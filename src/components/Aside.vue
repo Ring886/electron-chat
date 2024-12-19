@@ -8,7 +8,15 @@
       <!-- 循环显示备忘录 -->
       <li v-for="memo in memoStore.memos" :key="memo.id"
           class="block hover:bg-gray-700 p-2 rounded cursor-pointer" 
-          @click="handleClick(memo)">
+          @click="handleClick(memo)" @contextmenu="showContextMenu">
+        
+          <context-menu
+            v-model:show="show"
+            :options="menuOptions"
+          >
+            <context-menu-item label="删除" @click="onDelete" />
+          </context-menu>
+
         <h1>{{ memo.title }}</h1>
         <a>{{ memo.text }}</a>
       </li>
@@ -19,15 +27,53 @@
   </aside>
 </template>
 
-<script setup>
+<script setup lang="js">
   import { ref, defineEmits } from 'vue'
   import { useMemoStore } from '../store/index'
+  import { ContextMenu, ContextMenuItem} from '@imengyu/vue3-context-menu'
+  import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 
+  
   const emit = defineEmits()  // 定义 emit 以便向父组件传递数据
   const memoStore = useMemoStore()  // 引入 Pinia store
   const sidebarWidth = ref(200)  // 默认宽度
   let startX = 0
   let startWidth = 0
+
+
+
+  // 显示菜单的标志
+  const show = ref(false)
+
+  // 菜单的位置和配置
+  const menuOptions = ref({
+    zIndex: 1000,
+    minWidth: 150,
+    x: 0,
+    y: 0
+  })
+
+  // 右键点击时显示菜单
+  const showContextMenu = (e) => {
+    e.preventDefault() // 阻止默认的右键菜单
+    show.value = true
+    menuOptions.value.x = e.clientX
+    menuOptions.value.y = e.clientY
+    console.log(menuOptions.value.x)
+    console.log(menuOptions.value.y)
+    console.log(show.value)
+    console.log(menuOptions.value)
+  }
+
+  // 删除操作
+  const onDelete = () => {
+    alert('删除操作')
+    show.value = false // 关闭菜单
+  }
+
+  
+
+
 
   // 处理鼠标按下事件，开始拖动
   const startResize = (e) => {
@@ -47,12 +93,15 @@
     const delta = e.clientX - startX  // 计算鼠标移动的距离
     // 设置新的宽度，限制最小宽度为 100px，最大宽度为 600px
     sidebarWidth.value = Math.max(100, Math.min(600, startWidth + delta))
+
   }
 
   // 处理鼠标松开事件，结束拖动
   const onMouseUp = () => {
     window.removeEventListener('mousemove', onMouseMove)
     window.removeEventListener('mouseup', onMouseUp)
+    emit('BarWidth', sidebarWidth.value)
+    // console.log(sidebarWidth.value)
   }
 
   // 点击某个备忘录项时，传递给父组件

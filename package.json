@@ -13,10 +13,12 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@imengyu/vue3-context-menu": "^1.4.4",
     "core-js": "^3.8.3",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "^3.2.13",
+    "vue-contextmenu": "^1.5.11",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

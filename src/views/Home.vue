@@ -2,9 +2,9 @@
   <div class="flex">
     <!-- 左侧栏：导航栏或菜单 -->
 
-      <Aside @itemSelected="handleItemSelected" />
+    <Aside @itemSelected="handleItemSelected" @BarWidth="BarWidth"/>
     
-    <Setting :isOpen="isSidebarOpen" />
+    <Setting :isOpen="isSidebarOpen" :width="width"/>
 
 
     <!-- 右侧栏：主要内容区域 -->
@@ -73,6 +73,11 @@
   // 处理从 Aside 传递过来的选中项
   const handleItemSelected = (item) => {
     selectedItem.value = item
+  }
+
+  const width = ref(200)
+  const BarWidth = (item) => {
+    width.value = item
   }
 
   // 失去焦点后更新数据
