@@ -17,7 +17,7 @@
 
 
 
-      <div v-if="selectedItem" class="p-5">
+      <div v-if="selectedItem" class="p-5" :style="`height: ${innerHeight - 100}px;`">
         <!-- 可编辑标题 -->
         <h2 class="text-2xl font-bold">
           <input v-model="selectedItem.title" type="text"
@@ -30,8 +30,12 @@
             class="w-full bg-transparent border-b-2 border-gray-300 p-1 text-lg outline-none" rows="12" 
             @blur="changeText"></textarea>
         </p> -->
-        <textarea v-model="selectedItem.text" class="text-lg bg-transparent border-b-2 border-gray-300 p-1 text-lg outline-none w-full" rows="12" 
-        @blur="changeText"></textarea>
+        <!-- <div :style="`min-height: ${innerHeight - 40}px;`"> -->
+       
+        <textarea v-model="selectedItem.text" class="text-lg bg-transparent border-b-2 border-gray-300 p-1 text-lg outline-none w-full h-full"  
+      @blur="changeText"></textarea>
+  
+        
          
       </div>
 
@@ -44,6 +48,13 @@
   import { useMemoStore } from '../store/index'
   import Aside from "../components/Aside.vue"
   import Setting from "../components/Setting.vue"
+
+  // const rows = ref('')
+  // rows.value = (window.innerHeight / 40 + 2).toString()
+  const innerHeight = ref(window.innerHeight)
+  window.addEventListener('resize', () => {
+    innerHeight.value = window.innerHeight
+  })
 
   // 引入 Pinia store
   const memoStore = useMemoStore()
