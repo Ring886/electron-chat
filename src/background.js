@@ -36,7 +36,8 @@ async function createWindow() {
     createProtocol('app')
     // 在生产模式中加载应用资源
     // mainWindow.loadURL('app://./index.html')
-    mainWindow.loadURL('http://localhost:8080/index.html')
+    // mainWindow.loadURL('http://localhost:8080')
+    mainWindow.loadURL(NODE_ENV === 'development' ? 'http://localhost:8080' : `file://${path.join(__dirname, '../dist/index.html')}`)
   }
 
   // 启动 DevTools
