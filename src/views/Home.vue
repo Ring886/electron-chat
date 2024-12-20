@@ -33,7 +33,7 @@
         <!-- <div :style="`min-height: ${innerHeight - 40}px;`"> -->
        
         <textarea v-model="selectedItem.text" class="text-lg bg-transparent border-b-2 border-gray-300 p-1 text-lg outline-none w-full h-full"  
-      @blur="changeText" ref="TextGetFocus"></textarea>
+      @input="changeText" ref="TextGetFocus"></textarea>
   
       </div>
 
@@ -102,16 +102,18 @@
   }
 
   onUnmounted(() => {
-    console.log('hhh')
+    // console.log('hhh')
     changeText()
   })
   watch(selectedItem, (newValue, oldValue) => {
-    console.log(111)
-    console.log(newValue.text)
-    if(newValue.text) {
-      TextGetFocus.value.focus()
-    } else {
-      TitleGetFocus.value.focus()
+    // console.log(111)
+    console.log(newValue.title)
+    if(newValue.id !== oldValue.id) {
+      if(newValue.text) {
+        TextGetFocus.value.focus()
+      } else {
+        TitleGetFocus.value.focus()
+      }
     }
   }, {deep:true})
 

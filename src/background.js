@@ -35,7 +35,8 @@ async function createWindow() {
   } else {
     createProtocol('app')
     // 在生产模式中加载应用资源
-    mainWindow.loadURL('app://./index.html')
+    // mainWindow.loadURL('app://./index.html')
+    mainWindow.loadURL('http://localhost:8080/index.html')
   }
 
   // 启动 DevTools

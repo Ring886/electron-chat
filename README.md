@@ -64,3 +64,28 @@ window.addEventListener('resize', () => {
 
 # 要将 selectedItem 设置成 ref(memoStore.memos[0]), 否则会出现刷新页面时 main 区域为空
 
+
+# python路径出错
+1. 找到本地 Python 安装路径 
+``` bash
+which python 
+```
+2. 找到/node_modules/dmg-builder/out/dmg.js
+3. 搜索"/usr/bin/python" 
+4. 将其替换成 `Python` 路径
+
+
+
+
+# 0.5.0更新 2024-12-20 14:44
+## 刷新页面,如果点击除第一个的任意备忘录,直接修改标题,侧边栏不更新,失去焦点后也不会更新
+解决方法: 同下
+
+
+## 刷新页面,前面不论怎么样,只要失去一次焦点,然后再去编辑,不会同步更新,只有当再次失去焦点时,才会更新,并且如果编辑后不主动失去焦点的话,再刷新页面,数据会丢失,不会储存到pinia
+解决方法: 将 `<textarea>` 上的 `@blur` 事件改成 `@input` 事件
+
+## 配置更新
+1. 将 node 版本 20.0.0 ->20.9.0
+2. electron 版本 13.6.9 -> 18.3.15
+3. electron-builder 版本 22.4.13 -> 25.1.8

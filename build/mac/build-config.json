@@ -1,0 +1,33 @@
+{
+  "appId": "com.example.app",
+  "productName": "My App",
+  "directories": {
+    "output": "../dist"
+  },
+  "mac": {
+    "category": "public.app-category.games",
+    "icon": "build/mac/icon.icns"
+  },
+  "files": [
+    "dist/**/*",
+    "node_modules/**/*",
+    "!node_modules/electron-*",
+    "!node_modules/electron-builder",
+    "!node_modules/electron-prebuilt-compile",
+    "!node_modules/electron-edge-js/**/*"
+  ],
+  "dmg": {
+    "contents": [
+      {
+        "x": 110,
+        "y": 150
+      },
+      {
+        "x": 410,
+        "y": 150,
+        "type": "link",
+        "path": "/Applications"
+      }
+    ]
+  }
+}

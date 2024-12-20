@@ -2,6 +2,9 @@
   "name": "electron-todolist",
   "version": "0.1.0",
   "private": true,
+  "description": "memo",
+  "author": "Ring",
+  "license": "ISC",
   "scripts": {
     "start": "vue-cli-service electron:serve",
     "serve": "vue-cli-service serve",
@@ -15,6 +18,7 @@
   "dependencies": {
     "@imengyu/vue3-context-menu": "^1.4.4",
     "core-js": "^3.8.3",
+    "fsevents": "^2.3.3",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "^3.2.13",
@@ -28,7 +32,8 @@
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.20",
-    "electron": "^13.0.0",
+    "electron": "^18.3.15",
+    "electron-builder": "^25.1.8",
     "electron-devtools-installer": "^3.1.0",
     "postcss": "^8.4.49",
     "sass": "^1.32.7",
