@@ -21,10 +21,10 @@ async function createWindow() {
     webPreferences: {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: true,
-      preload: path.join(__dirname, process.env.NODE_ENV === 'development' 
-        ? '../src/preload.js' // 开发模式下使用 src 目录中的 preload.js
-        : 'preload.js' // 生产模式下使用打包后的 preload.js
-      )
+      // preload: path.join(__dirname, process.env.NODE_ENV === 'development' 
+      //   ? '../src/preload.js' // 开发模式下使用 src 目录中的 preload.js
+      //   : 'preload.js' // 生产模式下使用打包后的 preload.js
+      // )
     }
   })
 
@@ -37,7 +37,13 @@ async function createWindow() {
     // 在生产模式中加载应用资源
     // mainWindow.loadURL('app://./index.html')
     // mainWindow.loadURL('http://localhost:8080')
-    mainWindow.loadURL(NODE_ENV === 'development' ? 'http://localhost:8080' : `file://${path.join(__dirname, '../dist/index.html')}`)
+
+
+
+    // mainWindow.loadURL(NODE_ENV === 'development' ? 'http://localhost:8080' : `file://${path.join(__dirname, '../dist/index.html')}`)
+    mainWindow.loadFile(NODE_ENV === 'development' ? 'http://localhost:8080' : 'app://./index.html')
+    // app://./index.html?
+    mainWindow.webContents.openDevTools();
   }
 
   // 启动 DevTools
@@ -50,16 +56,25 @@ async function createWindow() {
   }
 }
 
-// 监听主进程中的事件并更新窗口标题
-ipcMain.on('set-title', (event, title) => {
-  mainWindow.setTitle(title)
-})
+// // 监听主进程中的事件并更新窗口标题
+// ipcMain.on('set-title', (event, title) => {
+//   mainWindow.setTitle(title)
+// })
 
 // ipcMain.on('reverse', () => {
   
 // })
 
 app.on('ready', createWindow)
+
+
+// 在Electron的main事件上添加
+app.whenReady().then(() => {
+  // 打开开发者工具
+  mainWindow.webContents.openDevTools()
+})
+
+
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -1,11 +1,13 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
+  publicPath: './', // 配置 publicPath
+
   transpileDependencies: true,
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
         appId: "com.yourdomain.todolist",
-        productName: "MeMo",
+        productName: "memo",
         mac: {
           target: "dmg",
           icon: "build/mac/icon.icns",
@@ -25,12 +27,12 @@ module.exports = defineConfig({
               x: 220,
               y: 150,
               type: "file",
-              path: "dist_electron/mac-arm64/MeMo.app"
+              // path: "dist_electron"
             }
           ]
         },
         files: [
-          "**/*"
+          "./**/*"
         ],
         directories: {
           output: "dist_electron"

@@ -98,3 +98,12 @@ which python
 
 # 0.6.0 更新 2024-12-20 16:58
 ## 针对 electron-builder 做了些更改, 目前还是无法打包,还是链接问题
+
+
+
+
+# 0.7.0 针对打包问题(最拖进度)
+vue.config.js中path注释掉,否则导致重复链接
+目前打开软件还是白屏,并且控制台显示:
+electron devtools was disconnected from the page
+V8上下文崩溃,不知道解决办法,降级也不好使
