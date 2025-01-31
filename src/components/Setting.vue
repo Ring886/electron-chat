@@ -6,19 +6,39 @@
         <li><a href="#" class="block hover:bg-gray-700 p-2 rounded">吐槽一下</a></li>
         <li><a href="#" class="block hover:bg-gray-700 p-2 rounded">设置</a></li>
         <li><a href="#" class="block hover:bg-gray-700 p-2 rounded">关于我们</a></li>
+        <li @click="showConfirm"><a href="#" class="block hover:bg-gray-700 p-2 rounded">清除全部</a></li>
       </ul>
     </aside>
   </transition>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+  import { defineProps } from 'vue'
+  import { useMemoStore } from '../store/index'
 
-defineProps({
-  isOpen: Boolean,
-  width: Number
-})
-// console.log(width)
+
+  const memoStore = useMemoStore()
+
+
+  defineProps({
+    isOpen: Boolean,
+    width: Number
+  })
+  // console.log(width)
+
+  function reset() {
+    memoStore.reset()
+    window.location.reload()
+  }
+
+  function showConfirm() {
+    const isReset = window.confirm('您确认要全部删除吗')
+    if(isReset) {
+      reset()
+    }
+  }
+
+
 </script>
 
 <style lang="scss">

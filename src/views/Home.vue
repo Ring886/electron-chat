@@ -47,8 +47,6 @@
   import Aside from "../components/Aside.vue"
   import Setting from "../components/Setting.vue"
 
-  // const rows = ref('')
-  // rows.value = (window.innerHeight / 40 + 2).toString()
   const innerHeight = ref(window.innerHeight)
   window.addEventListener('resize', () => {
     innerHeight.value = window.innerHeight
@@ -98,7 +96,9 @@
     selectedItem.value = memoStore.memos[0]
     console.log(memoStore.memos[0])
     console.log(selectedItem.value)
-    TitleGetFocus.value.focus()
+    if(TitleGetFocus.value) {
+      TitleGetFocus.value.focus()
+    }
   }
 
   onUnmounted(() => {
@@ -106,16 +106,20 @@
     changeText()
   })
   watch(selectedItem, (newValue, oldValue) => {
+    console.log('oldValue:', oldValue)
     // console.log(111)
     console.log(newValue.title)
-    if(newValue.id !== oldValue.id) {
-      if(newValue.text) {
-        TextGetFocus.value.focus()
-      } else {
-        TitleGetFocus.value.focus()
+    if(oldValue) {
+      if(TitleGetFocus.value || newValue.id !== oldValue.id) {
+        if(newValue.text) {
+          TextGetFocus.value.focus()
+        } else {
+          TitleGetFocus.value.focus()
+        }
       }
     }
   }, {deep:true})
+
 
 </script>
 

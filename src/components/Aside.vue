@@ -93,6 +93,8 @@
       memoStore.memos.splice(index, 1)
     }
     show.value = false // 关闭菜单
+
+    if(memoStore.memos.length === 0) window.location.reload()
   }
 
   

@@ -19,6 +19,7 @@
     "@imengyu/vue3-context-menu": "^1.4.4",
     "concurrently": "^9.1.0",
     "core-js": "^3.8.3",
+    "element-plus": "^2.9.3",
     "fsevents": "^2.3.3",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",

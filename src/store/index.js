@@ -20,6 +20,10 @@ export const useMemoStore = defineStore('memo', {
         this.memos[index] = { id, title, text };
         // console.log(this.memos[index])
       }
+    },
+    reset() {
+      this.memos = []; // 重置数据
+      // 重置其他状态
     }
   },
   persist: true
